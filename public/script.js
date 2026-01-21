@@ -1,20 +1,22 @@
 function login() {
-  fetch("/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value
-    })
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
   })
   .then(res => {
-    if (!res.ok) throw new Error();
+    if(!res.ok) throw new Error('Invalid');
     return res.json();
   })
-  .then(() => {
-    window.location.href = "/dashboard.html";
+  .then(data => {
+    if(data.success) {
+      window.location.href = '/dashboard.html';
+    }
   })
-  .catch(() => {
-    document.getElementById("msg").innerText = "Access Denied ❌";
+  .catch(err => {
+    document.getElementById('msg').innerText = 'Access Denied ❌';
   });
 }
